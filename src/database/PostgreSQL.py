@@ -80,28 +80,26 @@ class PostgreSQL(Database):
     def get_insqury(self, type_name=None):
 
         if type_name == '6AfilCto':
-            ins_qr = "insert into AfilDiarRGenePorCto6 (FECHA_REPT, FECHA_DATO, IdClasif, Valor) values  "
+            ins_qr = "insert into AfilDiarRGenePorCto6 (FECHA_DATO, IdClasif, Valor) values  "
         elif type_name == '5AfilTipo':
-            ins_qr = "insert into AfilDiarPorTipo5 (FECHA_REPT, FECHA_DATO, Idtipo, Valor) values  "
+            ins_qr = "insert into AfilDiarPorTipo5 (FECHA_DATO, Idtipo, Valor) values  "
         elif type_name == '4AfilDiarReg':
-            ins_qr = "insert into AfilDiarGenYAutonPorSeccCNAE4 (FECHA_REPT, FECHA_DATO, Idregimen, " \
+            ins_qr = "insert into AfilDiarGenYAutonPorSeccCNAE4 (FECHA_DATO, Idregimen, " \
                      "IdsecCNAE, Valor) values "
         elif type_name == '31EvolAfilRegims':
-            ins_qr = "insert into EvolAfilPorRegim31 (FECHA_REPT, FECHA_DATO, Idregimen, Valor) values "
+            ins_qr = "insert into EvolAfilPorRegim31 (FECHA_DATO, Idregimen, Valor) values "
         elif type_name == '32EvolAfilTiposCtos':
-            ins_qr = "insert into EvolAfilTipoCtoRegGen32 (FECHA_REPT, FECHA_DATO, IdTipoContrato, " \
-                     "Valor) values "
+            ins_qr = "insert into EvolAfilTipoCtoRegGen32 (FECHA_DATO, IdTipoContrato, Valor) values "
         elif type_name == '33AfilDiarRegGenActividades':
-            ins_qr = "insert into AfilDiarRegGenPorTipoActiv33 (FECHA_REPT, FECHA_DATO, " \
-                     "IdTipoActividad, Valor) values "
+            ins_qr = "insert into AfilDiarRegGenPorTipoActiv33 (FECHA_DATO, IdTipoActividad, Valor) values "
         elif type_name == 'Provincia':
             ins_qr = "insert into PrestCNAEProv (FECHA_REPT, IdRD, IdProvincia, COD_CNAE2009, SOLICITUDES, " \
                      "FAVORABLES, DESFAVORABLES, IMPORTE) values "
         elif type_name == 'SerieHistProv0':
-            ins_qr = "insert into Serie_Hist_Provincial (FECHA_REPT, IdRD, IdProvincia, FECHA_DATO, " \
+            ins_qr = "insert into Serie_Hist_Provincial (IdRD, IdProvincia, FECHA_DATO, " \
                      "Solicitadas, Concedidas, Denegadas) values "
         elif type_name == 'SerieHistProv1':
-            ins_qr = "insert into Serie_Hist_Provincial (FECHA_REPT, IdRD, IdProvincia, FECHA_DATO, " \
+            ins_qr = "insert into Serie_Hist_Provincial (IdRD, IdProvincia, FECHA_DATO, " \
                      "Solicitadas, Concedidas, Denegadas, Fuerza_Mayor) values "
         elif type_name == '1. SERIE F. NOTIF':
             ins_qr = "insert into ERTE_Serie_F_Notif (FECHA_REPT, FECHA_DATO, Agrup_RDL, " \
@@ -116,35 +114,35 @@ class PostgreSQL(Database):
             ins_qr = "insert into ERTE_Diario_CNAE_Absoluto (FECHA_REPT, FECHA_DATO, " \
                      "COD_CNAE2009, Agrup_RDL, Clasificacion, VALOR) values "
         elif type_name == '1DIARIOPROVCNAE':
-            ins_qr = "insert into RegGenDiarioCNAEProv1 (FECHA_REPT, FECHA_DATO, IdProvincia, " \
+            ins_qr = "insert into RegGenDiarioCNAEProv1 (FECHA_DATO, IdProvincia, " \
                      "GRP_CNAE2009, COD_CNAE2009, VALOR) values "
         elif type_name == '2DIARIOPROVCNAE':
-            ins_qr = "insert into RegEspDiarioCNAEProv2 (FECHA_REPT, FECHA_DATO, IdProvincia, IdRegimen, " \
+            ins_qr = "insert into RegEspDiarioCNAEProv2 (FECHA_DATO, IdProvincia, IdRegimen, " \
                      "GRP_CNAE2009, COD_CNAE2009, VALOR) values "
         return ins_qr
 
     def get_insquryend(self, type_name=None):
 
         if type_name == '6AfilCto':
-            ins_qr = " ON CONFLICT (FECHA_REPT, FECHA_DATO, IdClasif) DO UPDATE SET valor = EXCLUDED.valor ;"
+            ins_qr = " ON CONFLICT (FECHA_DATO, IdClasif) DO UPDATE SET valor = EXCLUDED.valor ;"
         elif type_name == '5AfilTipo':
-            ins_qr = " ON CONFLICT (FECHA_REPT, FECHA_DATO, Idtipo) DO UPDATE SET valor = EXCLUDED.valor ;"
+            ins_qr = " ON CONFLICT (FECHA_DATO, Idtipo) DO UPDATE SET valor = EXCLUDED.valor ;"
         elif type_name == '4AfilDiarReg':
-            ins_qr = " ON CONFLICT (FECHA_REPT, FECHA_DATO, Idregimen, IdsecCNAE) DO UPDATE SET " \
+            ins_qr = " ON CONFLICT (FECHA_DATO, Idregimen, IdsecCNAE) DO UPDATE SET " \
                      "valor = EXCLUDED.valor ;"
         elif type_name == '31EvolAfilRegims':
-            ins_qr = " ON CONFLICT (FECHA_REPT, FECHA_DATO, Idregimen) DO UPDATE SET valor = EXCLUDED.valor ;"
+            ins_qr = " ON CONFLICT (FECHA_DATO, Idregimen) DO UPDATE SET valor = EXCLUDED.valor ;"
         elif type_name == '32EvolAfilTiposCtos':
-            ins_qr = " ON CONFLICT (FECHA_REPT, FECHA_DATO, IdTipoContrato) DO UPDATE SET " \
+            ins_qr = " ON CONFLICT (FECHA_DATO, IdTipoContrato) DO UPDATE SET " \
                      "valor = EXCLUDED.valor ;"
         elif type_name == '33AfilDiarRegGenActividades':
-            ins_qr = " ON CONFLICT (FECHA_REPT, FECHA_DATO, IdTipoActividad) DO UPDATE SET valor = EXCLUDED.valor;"
+            ins_qr = " ON CONFLICT (FECHA_DATO, IdTipoActividad) DO UPDATE SET valor = EXCLUDED.valor;"
         elif type_name == 'Provincia':
             ins_qr = " ON CONFLICT (FECHA_REPT, IdRD, IdProvincia, COD_CNAE2009) DO UPDATE SET valor = EXCLUDED.valor;"
         elif type_name == 'SerieHistProv0':
-            ins_qr = " ON CONFLICT (FECHA_REPT, IdRD, IdProvincia, FECHA_DATO) DO UPDATE SET valor = EXCLUDED.valor;"
+            ins_qr = " ON CONFLICT (IdRD, IdProvincia, FECHA_DATO) DO UPDATE SET valor = EXCLUDED.valor;"
         elif type_name == 'SerieHistProv1':
-            ins_qr = " ON CONFLICT (FECHA_REPT, IdRD, IdProvincia, FECHA_DATO) DO UPDATE SET valor = EXCLUDED.valor;"
+            ins_qr = " ON CONFLICT (IdRD, IdProvincia, FECHA_DATO) DO UPDATE SET valor = EXCLUDED.valor;"
         elif type_name == '1. SERIE F. NOTIF':
             ins_qr = " ON CONFLICT (FECHA_REPT, FECHA_DATO, Agrup_RDL, Clasificacion) DO UPDATE SET " \
                      "valor = EXCLUDED.valor ;"
@@ -158,10 +156,10 @@ class PostgreSQL(Database):
             ins_qr = " ON CONFLICT (FECHA_REPT, FECHA_DATO, COD_CNAE2009, Agrup_RDL, Clasificacion) DO UPDATE " \
                      "SET valor = EXCLUDED.valor ;"
         elif type_name == '1DIARIOPROVCNAE':
-            ins_qr = " ON CONFLICT (FECHA_REPT, FECHA_DATO, IdProvincia, COD_CNAE2009) DO UPDATE " \
+            ins_qr = " ON CONFLICT (FECHA_DATO, IdProvincia, COD_CNAE2009) DO UPDATE " \
                      " SET valor = EXCLUDED.valor ;"
         elif type_name == '2DIARIOPROVCNAE':
-            ins_qr = " ON CONFLICT (FECHA_REPT, FECHA_DATO, IdProvincia, IdRegimen, COD_CNAE2009) " \
+            ins_qr = " ON CONFLICT (FECHA_DATO, IdProvincia, IdRegimen, COD_CNAE2009) " \
                      " DO UPDATE SET valor = EXCLUDED.valor ;"
         return ins_qr
 
@@ -318,6 +316,15 @@ class PostgreSQL(Database):
         result = cursor.fetchall()
         cursor.close()
         return result
+
+    def create_view(self, query, view):
+        """
+        A method designed to execute any query with any parameters
+        """
+        cursor = self.connection.cursor()
+        cursor.execute(query)
+        cursor.close()
+        return view + " creada"
 
     def insert(self, query, table):
         cursor = self.connection.cursor()

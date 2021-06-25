@@ -8,7 +8,7 @@ import sys
 import src.utils.checkif as checkif
 
 
-def etl_6diariocto(db, path, fecha_reporte):
+def etl_6diariocto(db, path):
     # t = time.time()
     pest = pd.read_excel(path)
     clasifs = []
@@ -45,13 +45,14 @@ def etl_6diariocto(db, path, fecha_reporte):
                             insert_query = insert_query + ", "
                         else:
                             insert_indx = insert_indx + 1
-                        insert_query = insert_query + "('" + str(fecha_reporte) + "', '" + str(fecha_dato) + "', " \
+                        insert_query = insert_query + "('" + str(fecha_dato) + "', " \
                                        + str(clasifs[column_posic - 2]) + ", " + valor + ")"
 
             column_posic = column_posic + 1
 
         if header == 1:
-            qurytxt = 'SELECT T.FECHA_DATO, ' + anomes
+            qurytxt = 'drop view if exists VISTA_6afildiarrgeneporcto ; CREATE VIEW VISTA_6afildiarrgeneporcto ' \
+                      'as SELECT T.FECHA_DATO, ' + anomes
             for j in clasif_tp:
                 qurytxt = qurytxt + ', SUM("' + j + '") AS "' + j + '"'
             qurytxt = qurytxt + ' FROM ('
@@ -64,20 +65,15 @@ def etl_6diariocto(db, path, fecha_reporte):
                         qurytxt = qurytxt + ', 0 as "' + clasif_tp[k] + '"'
                     else:
                         qurytxt = qurytxt + ', A' + str(idx) + '.valor as "' + clasif_tp[k] + '"'
-                qurytxt = qurytxt + ' from ' + tabla_dt + ' as A' + str(idx) + ' inner join ('
-                qurytxt = qurytxt + 'select FECHA_DATO, IdClasif, max(fecha_rept) as fecha_rept '
-                qurytxt = qurytxt + 'from ' + tabla_dt + ' group by FECHA_DATO, IdClasif'
-                qurytxt = qurytxt + ') as B' + str(idx)
-                qurytxt = qurytxt + ' on A' + str(idx) + '.fecha_rept=B' + str(idx) + '.fecha_rept '
-                qurytxt = qurytxt + ' and A' + str(idx) + '.FECHA_DATO=B' + str(idx) + '.FECHA_DATO '
-                qurytxt = qurytxt + ' and A' + str(idx) + '.IdClasif=B' + str(idx) + '.IdClasif '
-                qurytxt = qurytxt + 'inner join ' + tabla_tp + ' as C' + str(idx) + ' '
+                qurytxt = qurytxt + ' from ' + tabla_dt + ' as A' + str(idx)
+                qurytxt = qurytxt + ' inner join ' + tabla_tp + ' as C' + str(idx) + ' '
                 qurytxt = qurytxt + 'on A' + str(idx) + '.IdClasif=C' + str(idx) + '.IdClasif  '
                 qurytxt = qurytxt + 'and C' + str(idx) + '.clasificacion=\'' + val + '\' '
-            qurytxt = qurytxt + ') AS T GROUP BY T.FECHA_DATO ORDER BY T.FECHA_DATO '
+            qurytxt = qurytxt + ') AS T GROUP BY T.FECHA_DATO ORDER BY T.FECHA_DATO ; '
             qrfile = open(r"resources/queries/query" + tabla_dt + ".txt", "w+")
             qrfile.write(qurytxt)
             qrfile.close()
+            print(db.create_view(qurytxt, "VISTA_6afildiarrgeneporcto"))
 
     if insert_indx > 0:
         insert_query = insert_query + db.get_insquryend('6AfilCto')
@@ -87,7 +83,7 @@ def etl_6diariocto(db, path, fecha_reporte):
             print("Error {}:".format(e.args[0]))
 
 
-def etl_5diariotipo(db, path, fecha_reporte):
+def etl_5diariotipo(db, path):
     # t = time.time()
     pest = pd.read_excel(path)
     datarow = 0
@@ -116,12 +112,13 @@ def etl_5diariotipo(db, path, fecha_reporte):
                         insert_query = insert_query + ", "
                     else:
                         insert_indx = insert_indx + 1
-                    insert_query = insert_query + "('" + str(fecha_reporte) + "', '" + str(fecha_dato) + "', " \
+                    insert_query = insert_query + "('" + str(fecha_dato) + "', " \
                                    + clasif_id[column_posic - 1] + ", " + str(valor) + ")"
             column_posic = column_posic + 1
 
         if datarow == 0:
-            qurytxt = 'SELECT T.FECHA_DATO'
+            qurytxt = 'drop view if exists VISTA_5afildiarportipo ; CREATE VIEW VISTA_5afildiarportipo ' \
+                    'as SELECT T.FECHA_DATO'
             for j in clasif_tp:
                 qurytxt = qurytxt + ', SUM("' + j + '") AS "' + j + '"'
             qurytxt = qurytxt + ' FROM ('
@@ -134,13 +131,7 @@ def etl_5diariotipo(db, path, fecha_reporte):
                         qurytxt = qurytxt + ', 0 as "' + clasif_tp[k] + '"'
                     else:
                         qurytxt = qurytxt + ', A' + str(idx) + '.valor as "' + clasif_tp[k] + '"'
-                qurytxt = qurytxt + ' from ' + tabla_dt + ' as A' + str(idx) + ' inner join ('
-                qurytxt = qurytxt + 'select FECHA_DATO, idtipo, max(fecha_rept) as fecha_rept '
-                qurytxt = qurytxt + 'from ' + tabla_dt + ' group by FECHA_DATO, idtipo'
-                qurytxt = qurytxt + ') as B' + str(idx)
-                qurytxt = qurytxt + ' on A' + str(idx) + '.fecha_rept=B' + str(idx) + '.fecha_rept '
-                qurytxt = qurytxt + ' and A' + str(idx) + '.FECHA_DATO=B' + str(idx) + '.FECHA_DATO '
-                qurytxt = qurytxt + ' and A' + str(idx) + '.idtipo=B' + str(idx) + '.idtipo '
+                qurytxt = qurytxt + ' from ' + tabla_dt + ' as A' + str(idx) + ' '
                 qurytxt = qurytxt + 'inner join ' + tabla_tp + ' as C' + str(idx) + ' '
                 qurytxt = qurytxt + 'on A' + str(idx) + '.idtipo=C' + str(idx) + '.idtipo  '
                 qurytxt = qurytxt + 'and C' + str(idx) + '.tipo=\'' + val + '\' '
@@ -148,6 +139,7 @@ def etl_5diariotipo(db, path, fecha_reporte):
             qrfile = open(r"resources/queries/query" + tabla_dt + ".txt", "w+")
             qrfile.write(qurytxt)
             qrfile.close()
+            print(db.create_view(qurytxt, "VISTA_5afildiarportipo"))
 
         datarow = datarow + 1
 
@@ -159,13 +151,12 @@ def etl_5diariotipo(db, path, fecha_reporte):
             print("Error {}:".format(e.args[0]))
 
 
-def etl_4SeccionRegGen(db, path, fecha_reporte):
+def etl_4SeccionRegGen(db, path):
     # t = time.time()
     tabla_dt = db.get_table('4AfilDiarReg')
     tabla_tp = db.get_table('4AfilDiarReg2')
     for i in range(3):
         Idregimen = i + 1
-        # regmn = db.exec_param("select * from afildiarregs4 where idregimen=" + str(Idregimen))
         if Idregimen == 1:
             regmn = "reg_gen"
         elif Idregimen == 2:
@@ -204,13 +195,14 @@ def etl_4SeccionRegGen(db, path, fecha_reporte):
                                 insert_query = insert_query + ", "
                             else:
                                 insert_indx = insert_indx + 1
-                            insert_query = insert_query + "('" + str(fecha_reporte) + "', '" + str(fecha_dato) + "', " \
-                                           + str(Idregimen) + ", " + str(clasifs[column_posic - 1]) + ", " + valor + ")"
+                            insert_query = insert_query + "('" + str(fecha_dato) + "', " + str(Idregimen) \
+                                           + ", " + str(clasifs[column_posic - 1]) + ", " + valor + ")"
 
                 column_posic = column_posic + 1
 
             if header == 1:
-                qurytxt = 'SELECT T.FECHA_DATO'
+                qurytxt = 'drop view if exists VISTA_4afildiargenyautonporsecccnae_' + regmn + '; CREATE VIEW ' \
+                          'VISTA_4afildiargenyautonporsecccnae_' + regmn + ' AS SELECT T.FECHA_DATO '
                 for j in clasif_tp:
                     qurytxt = qurytxt + ', SUM("' + j + '") AS "' + j + '"'
                 qurytxt = qurytxt + ' FROM ('
@@ -223,21 +215,16 @@ def etl_4SeccionRegGen(db, path, fecha_reporte):
                             qurytxt = qurytxt + ', 0 as "' + clasif_tp[k] + '"'
                         else:
                             qurytxt = qurytxt + ', A' + str(idx) + '.valor as "' + clasif_tp[k] + '"'
-                    qurytxt = qurytxt + ' from ' + tabla_dt + ' as A' + str(idx) + ' inner join ('
-                    qurytxt = qurytxt + 'select FECHA_DATO, idregimen, idseccnae, max(fecha_rept) as fecha_rept '
-                    qurytxt = qurytxt + 'from ' + tabla_dt + ' where idregimen=' + str(Idregimen)
-                    qurytxt = qurytxt + ' group by FECHA_DATO, idregimen, idseccnae ) as B' + str(idx)
-                    qurytxt = qurytxt + ' on A' + str(idx) + '.fecha_rept=B' + str(idx) + '.fecha_rept '
-                    qurytxt = qurytxt + ' and A' + str(idx) + '.FECHA_DATO=B' + str(idx) + '.FECHA_DATO '
-                    qurytxt = qurytxt + ' and A' + str(idx) + '.idregimen=B' + str(idx) + '.idregimen '
-                    qurytxt = qurytxt + ' and A' + str(idx) + '.idseccnae=B' + str(idx) + '.idseccnae '
+                    qurytxt = qurytxt + ' from ' + tabla_dt + ' as A' + str(idx) + ' '
                     qurytxt = qurytxt + 'inner join ' + tabla_tp + ' as C' + str(idx) + ' '
                     qurytxt = qurytxt + 'on A' + str(idx) + '.idseccnae=C' + str(idx) + '.idseccnae  '
-                    qurytxt = qurytxt + 'and C' + str(idx) + '.seccioncnae=\'' + val + '\' '
+                    qurytxt = qurytxt + 'and A' + str(idx) + '.idregimen=' + str(Idregimen)
+                    qurytxt = qurytxt + ' and C' + str(idx) + '.seccioncnae=\'' + val + '\' '
                 qurytxt = qurytxt + ') AS T GROUP BY T.FECHA_DATO ORDER BY T.FECHA_DATO '
                 qrfile = open(r"resources/queries/query" + tabla_dt + "_" + regmn + ".txt", "w+")
                 qrfile.write(qurytxt)
                 qrfile.close()
+                print(db.create_view(qurytxt, "VISTA_5afildiarportipo"))
 
         if insert_indx > 0:
             insert_query = insert_query + db.get_insquryend('4AfilDiarReg')
@@ -247,7 +234,7 @@ def etl_4SeccionRegGen(db, path, fecha_reporte):
                 print("Error {}:".format(e.args[0]))
 
 
-def etl_3AfilDiar(db, path, fecha_reporte):
+def etl_3AfilDiar(db, path):
     # t = time.time()
     for i in range(3):
         pest = pd.read_excel(path, i)
@@ -295,7 +282,6 @@ def etl_3AfilDiar(db, path, fecha_reporte):
                     if column_posic == 0:
                         if not pd.isnull(value):
                             der_id = db.get_id(type_name=indxtable, code_name=valor)
-                        # print(valor + " - '" + str(der_id) + "'")
                     else:
                         fecha_dato = dates[column_posic - 1]
                         na = num_afil[column_posic - 1]
@@ -304,7 +290,7 @@ def etl_3AfilDiar(db, path, fecha_reporte):
                                 insert_query = insert_query + ", "
                             else:
                                 insert_indx = insert_indx + 1
-                            insert_query = insert_query + "('" + str(fecha_reporte) + "', '" + str(fecha_dato) + "', " \
+                            insert_query = insert_query + "('" + str(fecha_dato) + "', " \
                                            + str(der_id) + ", " + valor + ")"
 
                 column_posic = column_posic + 1

@@ -8,13 +8,15 @@ db = PostgreSQL("localhost", "postgres", "p0stgr3s")
 
 inputpath = "/home/demiurgo/Quark/Ministerio/respaldo/"
 
-# exclImport.etl_6diariocto(db, inputpath + "6.DIARIO tipo contrato desde 2009.xlsx", \
+# exclImport.etl_6diariocto(db, inputpath + "6.DIARIO tipo contrato desde 2009.xlsx")  #, \
 #                           "2021-05-28")
-# exclImport.etl_5diariotipo(db, inputpath + "5.Datos diarios.xlsx", "2021-05-28")
+# exclImport.etl_5diariotipo(db, inputpath + "5.Datos diarios.xlsx")
+# exclImport.etl_4SeccionRegGen(db, inputpath + "4. SECCIONES R-GENERAL MAS AUTONOMOS DIARIO.xlsx")
 # exclImport.etl_4SeccionRegGen(db, inputpath + "4. SECCIONES R-GENERAL MAS AUTONOMOS "
 #                                   "DIARIO.xlsx", "2021-05-28")
 
 # exclImport.etl_3AfilDiar(db, inputpath + "3.Datos diarios_Afiliados regimenes_TC_Secciones.xlsx", "2021-05-28")
+exclImport.etl_3AfilDiar(db, inputpath + "3.Datos diarios_Afiliados regimenes_TC_Secciones.xlsx")
 
 # exclImport.etl_prestCNAEprov(db, inputpath + "Prestaciones por cnae y prov a 29 marzo_Mutuas.xlsx", "2021-05-28")
 # exclImport.etl_SerieHistProv(db, inputpath + "serie histórica provincial a 29 marzo_Mutuas.xlsx", "2021-05-28")
@@ -22,7 +24,7 @@ inputpath = "/home/demiurgo/Quark/Ministerio/respaldo/"
 # exclImport.etl_ERTEdiario(db, inputpath + "1304_ERTE_FICHERO DIARIO.xlsx", "2021-05-28")
 
 inputpath = "/home/demiurgo/Quark/Ministerio/Entradas/"
-exclImport.etl_1diarioreggen(db, inputpath + "1_Provincia_diario_actividad_Cnae09_R_General.xlsx", "2021-05-28")
+# exclImport.etl_1diarioreggen(db, inputpath + "1_Provincia_diario_actividad_Cnae09_R_General.xlsx", "2021-05-28")
 # exclImport.etl_2diarioregesp(db, inputpath + "2_Provincia_diario_actividad_Cnae09_RETA_SETA-NOSETA.xlsx", "2021-05-28")
 
 # 5.Datos diarios.xlsx
