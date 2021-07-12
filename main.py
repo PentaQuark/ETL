@@ -1,6 +1,7 @@
 from src.database.MySQL import MySQL
 from src.database.PostgreSQL import PostgreSQL
 import src.etl.FilesXLSX as exclImport
+import src.etl.FilesCSV as csvImport
 
 # db = MySQL("localhost", "etlUser", "k9Fx3EzQ1Pn4zx$")
 # db = PostgreSQL("localhost", "etlUser", "k9Fx3EzQ1Pn4zx$")
@@ -25,7 +26,10 @@ inputpath = "/home/demiurgo/Quark/Ministerio/respaldo/"
 
 inputpath = "/home/demiurgo/Quark/Ministerio/Entradas/"
 # exclImport.etl_1diarioreggen(db, inputpath + "1_Provincia_diario_actividad_Cnae09_R_General.xlsx")
-exclImport.etl_2diarioregesp(db, inputpath + "2_Provincia_diario_actividad_Cnae09_RETA_SETA-NOSETA.xlsx")
+# exclImport.etl_2diarioregesp(db, inputpath + "2_Provincia_diario_actividad_Cnae09_RETA_SETA-NOSETA.xlsx")
+#csvImport.etl_1diarioreggen(db, inputpath + "DiariosRegGen.csv")
+#csvImport.etl_2diarioreta(db, inputpath + "DiariosRegGen.csv")
+csvImport.etl_2diarioseta(db, inputpath + "DiariosRegGen.csv")
 
 # 5.Datos diarios.xlsx
 

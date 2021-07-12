@@ -118,7 +118,7 @@ def etl_5diariotipo(db, path):
 
         if datarow == 0:
             qurytxt = 'drop view if exists VISTA_5afildiarportipo ; CREATE VIEW VISTA_5afildiarportipo ' \
-                    'as SELECT T.FECHA_DATO'
+                      'as SELECT T.FECHA_DATO'
             for j in clasif_tp:
                 qurytxt = qurytxt + ', SUM("' + j + '") AS "' + j + '"'
             qurytxt = qurytxt + ' FROM ('
@@ -202,7 +202,7 @@ def etl_4SeccionRegGen(db, path):
 
             if header == 1:
                 qurytxt = 'drop view if exists VISTA_4afildiargenyautonporsecccnae_' + regmn + '; CREATE VIEW ' \
-                          'VISTA_4afildiargenyautonporsecccnae_' + regmn + ' AS SELECT T.FECHA_DATO '
+                                                                                               'VISTA_4afildiargenyautonporsecccnae_' + regmn + ' AS SELECT T.FECHA_DATO '
                 for j in clasif_tp:
                     qurytxt = qurytxt + ', SUM("' + j + '") AS "' + j + '"'
                 qurytxt = qurytxt + ' FROM ('

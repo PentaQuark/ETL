@@ -1,4 +1,5 @@
 from dateutil.parser import parse
+from datetime import datetime
 
 
 def is_date(string, fuzzy=False):
@@ -77,6 +78,14 @@ def is_10_date(string):
     return string
 
 
+def is_sp_date(string):
+    try:
+        datetime.strptime(string, '%d/%m/%Y')
+        return True
+    except ValueError:
+        return False
+
+
 def is_ok_regimen(string):
     if not is_integer(string) or (int(string) < 1):
         string = '0'
@@ -101,3 +110,5 @@ def is_int_value(string):
     if not is_integer(string) or int(string) < 0:
         string = '0'
     return string
+
+
