@@ -768,7 +768,7 @@ def etl_ERTEdiario(db, path, fecha_reporte):
                 print("Error {}:".format(e.args[0]))
 
 
-def etl_1diarioreggen(db, path, fecha_reporte):
+def etl_1diarioreggen(db, path):
     insert_query = db.get_insqury('1DIARIOPROVCNAE')
     tabla_dt = db.get_table('1DIARIOPROVCNAE')
     end_query = db.get_insquryend('1DIARIOPROVCNAE')
@@ -788,8 +788,8 @@ def etl_1diarioreggen(db, path, fecha_reporte):
     pest.iloc[:, 9] = pest.iloc[:, 9].map(str)
     pest.iloc[:, 9] = pest.apply(lambda x: checkif.is_int_value(x.iloc[9]), axis=1)
     pest = pest[pest.iloc[:, 9] != '0']
-    insertsql2 = "('" + str(fecha_reporte) + "', '" + pest.iloc[:, 0] + "', '" + pest.iloc[:, 3] \
-                 + "', '" + pest.iloc[:, 5] + "', '" + pest.iloc[:, 7] + "', " + pest.iloc[:, 9] + ")"
+    insertsql2 = "('" + pest.iloc[:, 0] + "', '" + pest.iloc[:, 3] + "', '" + pest.iloc[:, 5] \
+                 + "', '" + pest.iloc[:, 7] + "', " + pest.iloc[:, 9] + ")"
     insertsql2.iloc[0] = insert_query + insertsql2.iloc[0]
     insertsql2.iloc[:-1] = insertsql2.iloc[:-1] + ", "
     insertsql2.iloc[-1] = insertsql2.iloc[-1] + end_query
@@ -819,8 +819,8 @@ def etl_1diarioreggen(db, path, fecha_reporte):
     pest.iloc[:, 9] = pest.iloc[:, 9].map(str)
     pest.iloc[:, 9] = pest.apply(lambda x: checkif.is_int_value(x.iloc[9]), axis=1)
     pest = pest[pest.iloc[:, 9] != '0']
-    insertsql2 = "('" + str(fecha_reporte) + "', '" + pest.iloc[:, 0] + "', '" + pest.iloc[:, 3] \
-                 + "', '" + pest.iloc[:, 5] + "', '" + pest.iloc[:, 7] + "', " + pest.iloc[:, 9] + ")"
+    insertsql2 = "('" + pest.iloc[:, 0] + "', '" + pest.iloc[:, 3] + "', '" + pest.iloc[:, 5] \
+                 + "', '" + pest.iloc[:, 7] + "', " + pest.iloc[:, 9] + ")"
     insertsql2.iloc[0] = insert_query + insertsql2.iloc[0]
     insertsql2.iloc[:-1] = insertsql2.iloc[:-1] + ", "
     insertsql2.iloc[-1] = insertsql2.iloc[-1] + end_query
@@ -834,9 +834,11 @@ def etl_1diarioreggen(db, path, fecha_reporte):
         print(db.insert(sqlcommand, "1DIARIOPROVCNAE"))
     except cx.Error as e:
         print("Error {}:".format(e.args[0]))
+    t = datetime.now()
+    print("1_" + t.strftime("%H:%M:%S"))
 
 
-def etl_2diarioregesp(db, path, fecha_reporte):
+def etl_2diarioregesp(db, path):
     insert_query = db.get_insqury('2DIARIOPROVCNAE')
     tabla_dt = db.get_table('2DIARIOPROVCNAE')
     end_query = db.get_insquryend('2DIARIOPROVCNAE')
@@ -859,7 +861,7 @@ def etl_2diarioregesp(db, path, fecha_reporte):
     pest.iloc[:, 11] = pest.iloc[:, 11].map(str)
     pest.iloc[:, 11] = pest.apply(lambda x: checkif.is_int_value(x.iloc[11]), axis=1)
     pest = pest[pest.iloc[:, 11] != '0']
-    insertsql2 = "('" + str(fecha_reporte) + "', '" + pest.iloc[:, 0] + "', '" + pest.iloc[:, 3] \
+    insertsql2 = "('" + pest.iloc[:, 0] + "', '" + pest.iloc[:, 3] \
                  + "', " + pest.iloc[:, 5] + ", '" + pest.iloc[:, 7] + "', '" + pest.iloc[:, 9] \
                  + "', " + pest.iloc[:, 11] + ")"
     insertsql2.iloc[0] = insert_query + insertsql2.iloc[0]
@@ -894,7 +896,7 @@ def etl_2diarioregesp(db, path, fecha_reporte):
     pest.iloc[:, 11] = pest.iloc[:, 11].map(str)
     pest.iloc[:, 11] = pest.apply(lambda x: checkif.is_int_value(x.iloc[11]), axis=1)
     pest = pest[pest.iloc[:, 11] != '0']
-    insertsql2 = "('" + str(fecha_reporte) + "', '" + pest.iloc[:, 0] + "', '" + pest.iloc[:, 3] \
+    insertsql2 = "('" + pest.iloc[:, 0] + "', '" + pest.iloc[:, 3] \
                  + "', " + pest.iloc[:, 5] + ", '" + pest.iloc[:, 7] + "', '" + pest.iloc[:, 9] \
                  + "', " + pest.iloc[:, 11] + ")"
     insertsql2.iloc[0] = insert_query + insertsql2.iloc[0]
